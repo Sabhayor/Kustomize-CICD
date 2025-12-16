@@ -1,0 +1,9 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+
+configMapGenerator:
+  - name: app-config
+    literals:
+      - app_name=DemoApp
+      - log_level=info
