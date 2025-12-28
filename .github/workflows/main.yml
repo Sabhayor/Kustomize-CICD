@@ -17,6 +17,22 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v1
 
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region ${{ secrets.AWS_REGION }} \
+            --name my-cluster-name
+
+      - name: Verify cluster access
+        run: kubectl get nodes   
     #  - name: Deploy to EKS
     #    env:
     #     KUBECONFIG: ${{ secrets.KUBECONFIG }}
